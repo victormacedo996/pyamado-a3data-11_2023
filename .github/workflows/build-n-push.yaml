@@ -5,6 +5,10 @@ on:
   push:
     tags:
       - "v*"
+
+env:
+  DOCKERHUB_REPOSITORY: shadow-deploy-example
+
 jobs:
   build-n-push:
     runs-on: ubuntu-22.04
@@ -32,7 +36,7 @@ jobs:
         with:
           context: ./apps/api
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/shadow-deploy-example:${{ steps.tag.outputs.tag }},${{ secrets.DOCKERHUB_USERNAME }}/shadow-deploy-example:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ DOCKERHUB_REPOSITORY }}:${{ steps.tag.outputs.tag }},${{ secrets.DOCKERHUB_USERNAME }}/${{ DOCKERHUB_REPOSITORY }}:latest
 
     outputs:
       image: :${{ steps.release.outputs.version }}
