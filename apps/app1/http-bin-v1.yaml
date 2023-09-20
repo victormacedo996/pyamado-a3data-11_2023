@@ -16,9 +16,11 @@ spec:
         version: v1
     spec:
       containers:
-      - image: docker.io/kennethreitz/httpbin
+      - image: ghcr.io/knative/helloworld-go:latest
         imagePullPolicy: IfNotPresent
         name: httpbin
-        command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
         ports:
-        - containerPort: 80
+        - containerPort: 8080
+        env:
+          - name: TARGET
+            value: "APP-1"

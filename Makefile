@@ -1,4 +1,4 @@
-.PHONY: all 
+.PHONY: all check-dependencies
 
 .DEFAULT_GOAL := help 
 
@@ -9,13 +9,12 @@ check-dependencies: ## Check dependencies
 	@docker --version
 	@kubectl version
 	@helm version
-	
 
-install-knative: ## Install Knative with Istio
+install-knative: all check-dependencies## Install Knative with Istio
 	@kubectl apply -f infraestructure/manifests/knative/serving-crds.yaml
 	@kubectl apply -f infraestructure/manifests/knative/serving-core.yaml
-	@kubectl apply -l knative.dev/crd-install=true -f infraestructure/manifests/knative/istio.yaml
-	@kubectl apply -f infraestructure/manifests/knative/istio.yaml
+	@kubectl apply -l knative.dev/crd-install=true -f infraestructure/manifests/istio/istio.yaml
+	@kubectl apply -f infraestructure/manifests/istio/istio.yaml
 	@kubectl apply -f infraestructure/manifests/knative/net-istio.yaml
 	@kubectl patch configmap/config-domain \
       --namespace knative-serving \

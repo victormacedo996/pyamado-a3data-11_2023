@@ -2,11 +2,18 @@
 
 ## Useful commands
 
+### start kind cluster
+`kind create cluster --name shadow-deploy`
+
 ### Figure out istio node port
-`echo $(kubectl get svc $INGRESSGATEWAY --namespace istio-system --output 'jsonpath={.spec.ports[?(@.port==80)].nodePort}')`
+`echo $(kubectl get svc istio-ingressgateway --namespace istio-system --output 'jsonpath={.spec.ports[?(@.port==80)].nodePort}')`
+
+### Port forward istio ingress gateway
+
+`k port-forward svc/istio-ingressgateway -n istio-system <NODE_PORT>:80`
 
 ### curl the ksvc
-`curl -H "Host: hello.test.example.com" http://127.0.0.1:32551`
+`curl -H "Host: hello.test.example.com" http://127.0.0.1:<NODE_PORT>`
 
 ### get the knative service url
 `kubectl get ksvc -n namespace`
