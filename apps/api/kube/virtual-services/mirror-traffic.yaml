@@ -10,10 +10,10 @@ spec:
   - route:
     - destination:
         host: sd-example
-        subset: v1
+        subset: v2
       weight: 100
     mirror:
       host: sd-example
-      subset: v2
+      subset: v1
     mirrorPercentage:
       value: 100
