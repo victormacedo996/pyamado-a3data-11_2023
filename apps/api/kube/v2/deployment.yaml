@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sd-example-2
+  namespace: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sd-example
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: sd-example
+        version: v2
+    spec:
+      containers:
+      - image: victormacedo996/shadow-deploy-example:v0.0.1
+        imagePullPolicy: IfNotPresent
+        name: sd-example
+        ports:
+        - containerPort: 3333
+        env:
+          - name: TARGET
+            value: "APP-2"
+
+            

@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: sd-example
+  namespace: test
+spec:
+  hosts:
+    - sd-example
+  http:
+  - route:
+    - destination:
+        host: sd-example
+        subset: v1
+      weight: 100
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sd-example
+  namespace: test
+spec:
+  host: sd-example
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
