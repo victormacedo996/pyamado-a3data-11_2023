@@ -37,3 +37,10 @@
 ## get logs from V2_POD
 
 `kubectl logs -n test -f $V2_POD -c sd-example --tail=0`
+
+### get grafana admin password
+`kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
+
+### URL to add Prometheus Granafa data source
+`http://prometheus-server.prometheus.svc.cluster.local:80`
+
