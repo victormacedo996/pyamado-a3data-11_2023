@@ -9,6 +9,7 @@ help: ## Show this help
 V1_POD := `kubectl get pod -n test -l app=sd-example,version=v1 -o jsonpath={.items..metadata.name}`
 V2_POD := `kubectl get pod -n test -l app=sd-example,version=v2 -o jsonpath={.items..metadata.name}`
 SLEEP_POD := `kubectl get pod -n test -l app=sleep -o jsonpath={.items..metadata.name}`
+KNATIVE_POD := `kubectl get pod -n test -l app=sleep -o jsonpath={.items..metadata.name}`
 ISTIO_PORT := `kubectl get svc istio-ingressgateway --namespace istio-system --output 'jsonpath={.spec.ports[?(@.port==80)].nodePort}'`
 
 
@@ -30,17 +31,17 @@ install-knative: all check-dependencies ## Install Knative with Istio
 	@kubectl --namespace istio-system get service istio-ingressgateway
 
 
-install-prometheus: all check-dependencies ## Install Prometheus
-	@helm upgrade --install prometheus --repo=https://prometheus-community.github.io/helm-charts \
-			--namespace=prometheus \
-			--create-namespace \
-			prometheus
+# install-prometheus: all check-dependencies ## Install Prometheus
+# 	@helm upgrade --install prometheus --repo=https://prometheus-community.github.io/helm-charts \
+# 			--namespace=prometheus \
+# 			--create-namespace \
+# 			prometheus
 	
-install-grafana: all check-dependencies ## Install Granafa
-	@helm upgrade --install grafana --repo=https://grafana.github.io/helm-charts \
-		--namespace=grafana \
-		--create-namespace \
-		grafana
+# install-grafana: all check-dependencies ## Install Granafa
+# 	@helm upgrade --install grafana --repo=https://grafana.github.io/helm-charts \
+# 		--namespace=grafana \
+# 		--create-namespace \
+# 		grafana
 
 deploy-application: check-dependencies ## Install app
 	@kubectl apply -f ./apps/api/kube/v1/namespace.yaml
@@ -64,3 +65,7 @@ port-forward-istio-gateway: check-dependencies ## Port forward for Istio Gateway
 
 request: ## Send request from within the sleep pod
 	@kubectl exec -n test "${SLEEP_POD}" -c sleep -- curl -sS http://sd-example:8000/
+
+
+knative-request: ## Send request from within the sleep pod
+	@curl -sS -H "Host: hello.test.example.com" http://127.0.0.1:${ISTIO_PORT}

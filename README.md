@@ -44,3 +44,22 @@
 ### URL to add Prometheus Granafa data source
 `http://prometheus-server.prometheus.svc.cluster.local:80`
 
+
+
+## Ordem para rodar o lab
+
+### Knative
+
+1. `make install-knative`
+2. `kubectl apply -f apps/api/kube/knative/kservice.yaml`
+3. `mostrar a aplicação escalar para 0 e o warm up`
+4. `alterar as variaveis de ambiente do ksvc e aplicar de novo`
+5. `make port-forward-istio-gateway`
+6. `make knative-request`
+
+### Shadow deployment
+1. `make deploy-application`
+2. Excutar algumas vezes `make request`
+3. `make shadow-traffic`
+4. Abrir 3 terminais e em um deles rodar `make log-app-1`, no outr `make log-app-2` e no terceito `make request`
+
