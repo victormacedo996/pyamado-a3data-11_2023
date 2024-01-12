@@ -1,0 +1,19 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: hello
+  namespace: test
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/min-scale: "1"
+    spec:
+      containers:
+        - image: victormacedo996/shadow-deploy-example:v0.0.1
+          ports:
+            - containerPort: 3333
+          
+          env:
+            - name: TARGET
+              value: "APP-2"
