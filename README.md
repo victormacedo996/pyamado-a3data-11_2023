@@ -38,12 +38,6 @@
 
 `kubectl logs -n test -f $V2_POD -c sd-example --tail=0`
 
-### get grafana admin password
-`kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
-
-### URL to add Prometheus Granafa data source
-`http://prometheus-server.prometheus.svc.cluster.local:80`
-
 
 
 ## Ordem para rodar o lab
@@ -59,7 +53,6 @@
 
 ### Shadow deployment
 1. `make deploy-application`
-2. Excutar algumas vezes `make request`
+2. Run `make request` a few times
 3. `make shadow-traffic`
-4. Abrir 3 terminais e em um deles rodar `make log-app-1`, no outr `make log-app-2` e no terceito `make request`
-
+4. Open 3 terminals in the first run `make log-app-1`, in the second `make log-app-2`, finally, in the third `make request`
